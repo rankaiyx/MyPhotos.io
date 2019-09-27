@@ -47,7 +47,7 @@ def load_templates():
     with open(tmp_gallery_file, 'r') as tmp_file:
         TMP_GALLERY=tmp_file.read()
 
-    with open(tmp_main_file, 'r') as tmp_file:
+    with open(tmp_main_file, 'r',encoding='UTF-8') as tmp_file:
         TMP_MAIN=tmp_file.read()
 
     with open(tmp_nav_file, 'r') as tmp_file:
