@@ -1,4 +1,5 @@
 #!/bin/python
+# encoding:utf-8
 import  os, sys, glob, shutil, re
 from PIL import Image
 from os import path
@@ -41,16 +42,16 @@ TIME_PATTERN2=r'\d\d.\d\d.\d\d, \d\d \d\d \d\d'
 
 def load_templates():
     global TMP_IMAGE, TMP_MAIN, TMP_GALLERY, TMP_NAV
-    with open(tmp_image_file, 'r') as tmp_file:
+    with open(tmp_image_file, 'r',encoding='UTF-8') as tmp_file:
         TMP_IMAGE=tmp_file.read()
 
-    with open(tmp_gallery_file, 'r') as tmp_file:
+    with open(tmp_gallery_file, 'r',encoding='UTF-8') as tmp_file:
         TMP_GALLERY=tmp_file.read()
 
     with open(tmp_main_file, 'r',encoding='UTF-8') as tmp_file:
         TMP_MAIN=tmp_file.read()
 
-    with open(tmp_nav_file, 'r') as tmp_file:
+    with open(tmp_nav_file, 'r',encoding='UTF-8') as tmp_file:
         TMP_NAV=tmp_file.read()
 
     log("All templates have been loaded" )
@@ -168,7 +169,7 @@ def create_htmls(incremental = False):
             items.append(item_html)
         html = all_htmls[current].replace(ph_main_nav,  '\n'.join(items))
         log ("Writing html file %s " % html_file)
-        with open( html_file, 'w') as file:
+        with open( html_file, 'w',encoding='UTF-8') as file:
             file.write(html)
 
 
