@@ -37,6 +37,7 @@ ph_nav_item="#ITEM#"
 ph_nav_link="#LINK#"
 
 TIME_PATTERN=r'\d\d-\d\d-\d\d \d\d \d\d \d\d'
+TIME_PATTERN2=r'\d\d.\d\d.\d\d, \d\d \d\d \d\d'
 
 def load_templates():
     global TMP_IMAGE, TMP_MAIN, TMP_GALLERY, TMP_NAV
@@ -76,8 +77,11 @@ def get_date_taken(image_file):
     except: 
         #check filename pattern first
         tmp = re.search(TIME_PATTERN, image_file)
+        tmp2 = re.search(TIME_PATTERN2, image_file)
         if tmp: 
             return datetime.strptime(tmp.group(0), '%d-%m-%y %H %M %S')
+        elif tmp2:
+            return datetime.strptime(tmp2.group(0), '%d.%m.%y, %H %M %S')
         else:
             return datetime.fromtimestamp(path.getmtime(image_file))
 
@@ -119,7 +123,7 @@ def process_image_dir(image_dir, incremental = False):
 
 def create_gallery_html(image_dir, incremental = False):
     #gallery/album name
-    gallery_name = image_dir.split(os.path.normcase('/'))[-2]
+    gallery_name = image_dir.split('/')[-2]
     image_htmls = process_image_dir(image_dir, incremental)
     gallery_html = TMP_GALLERY.replace(ph_gallery_desc, "Last update: %s" % strftime("%Y-%m-%d %H:%M:%S", gmtime()))
     gallery_html = gallery_html.replace(ph_gallery_photos, "\n".join(image_htmls))
@@ -137,7 +141,7 @@ def get_main_html_dict(incremental = False):
         html = TMP_MAIN.replace(ph_main_gallery, gallery_html)
 
         #gallery/album name
-        gallery_name = image_dir.split(os.path.normcase('/'))[-2]
+        gallery_name = image_dir.split('/')[-2]
         all_htmls[gallery_name] = html
     return all_htmls
 
